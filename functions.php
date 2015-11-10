@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 function db_connect(){
-	$hostname 	= $_ENV['OPENSHIFT_MYSQL_DB_HOST'];
+	$hostname 	= 'localhost';//$_ENV['OPENSHIFT_MYSQL_DB_HOST'];
 	$database 	= $_ENV['OPENSHIFT_GEAR_NAME'];
 	$username 	= $_ENV['OPENSHIFT_MYSQL_DB_USERNAME'];
 	$password 	= $_ENV['OPENSHIFT_MYSQL_DB_PASSWORD'];
