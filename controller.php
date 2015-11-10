@@ -14,7 +14,9 @@ class Controller{
 		  $ret =  forward_static_call_array(array(get_class(), $name), $args);
 		  disconnect();
 		  return $ret;
-		}
+	  } else{
+		  echo "Unable to call controller action";
+	  }
 	}
 }
 ?>
