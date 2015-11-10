@@ -10,15 +10,14 @@ function db_connect(){
 	$database 	= $_ENV['OPENSHIFT_GEAR_NAME'];
 	$username 	= $_ENV['OPENSHIFT_MYSQL_DB_USERNAME'];
 	$password 	= $_ENV['OPENSHIFT_MYSQL_DB_PASSWORD'];
-	$port 		= $_ENV['OPENSHIFT_MYSQL_DB_PORT'];
 
-	connect($hostname, $database, $username, $password, $port);
+	connect($hostname, $database, $username, $password);
 }
 
-function connect($hostname, $database, $username, $password, $port = 3306){
+function connect($hostname, $database, $username, $password){
 	global $error, $db;
 
-	$db = new mysqli($hostname, $username, $password, $database, $port);
+	$db = new mysqli($hostname, $username, $password, $database);
 	if ($db->connect_error){
 		$error = "Unable to connect to MySQL: " . $db->connect_error;
 	}
