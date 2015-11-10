@@ -1,6 +1,6 @@
 <?php
-include_once '../controller.php';
-include_once '../functions.php';
+require_once '../controller.php';
+require_once '../functions.php';
 
 class Bookmarks extends Controller{
 	private static function index($params){
