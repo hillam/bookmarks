@@ -18,7 +18,8 @@ class Bookmarks extends Controller{
 			$row['tags'] = $tags;
 		}
 
-		echo json_encode($results);
+		var_dump($results);
+		// echo json_encode($results);
 	}
 
 	private static function create($params){
