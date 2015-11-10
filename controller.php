@@ -8,7 +8,7 @@ class Controller{
 		* It connects to the database, and then calls the desired method,
 		  then disconnects from the db.
 	------------------------------------------------------------------*/
-	public function __callStatic($name,$args) {
+	public static function __callStatic($name,$args) {
 		if (method_exists($this,$name)) {
 		  db_connect();
 		  $ret =  forward_static_call_array($name, $args);
