@@ -9,7 +9,7 @@ class Controller{
 		  then disconnects from the db.
 	------------------------------------------------------------------*/
 	public static function __callStatic($name,$args) {
-		if (method_exists($this,$name)) {
+		if (method_exists(get_class(), $name)) {
 		  db_connect();
 		  $ret =  forward_static_call_array($name, $args);
 		  disconnect();
