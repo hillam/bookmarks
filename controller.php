@@ -10,13 +10,13 @@ abstract class Controller{
 	------------------------------------------------------------------*/
 	public static function __callStatic($name,$args) {
 		if (method_exists(get_called_class(), $name)) {
-		  db_connect();
-		  $ret =  forward_static_call_array(array(get_called_class(), $name), $args);
-		  disconnect();
-		  return $ret;
-	  } else{
-		  echo "Unable to call controller action";
-	  }
+			db_connect();
+			$ret =  forward_static_call_array(array(get_called_class(), $name), $args);
+			disconnect();
+			return $ret;
+		} else{
+			echo "Unable to call controller action";
+		}
 	}
 }
 ?>
