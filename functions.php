@@ -8,8 +8,8 @@ ini_set('display_errors', 1);
 function db_connect(){
 	$hostname = 'localhost';
 	$database = 'bookmarks';
-	$username = $_ENV['DB_USERNAME'];
-	$password = $_ENV['DB_PASSWORD'];
+	$username = $_ENV['OPENSHIFT_bookmarks_DB_USERNAME'];
+	$password = $_ENV['OPENSHIFT_bookmarks_DB_PASSWORD'];
 
 	connect($hostname, $database, $username, $password);
 }
