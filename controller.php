@@ -1,7 +1,7 @@
 <?php
 require_once 'functions.php';
 
-class Controller{
+abstract class Controller{
 	/*------------------------------------------------------------------
 		* Becuase methods are private, this one will be called first
 		  when someone tries to call them from outside.
