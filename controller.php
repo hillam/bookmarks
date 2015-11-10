@@ -11,7 +11,7 @@ class Controller{
 	public static function __callStatic($name,$args) {
 		if (method_exists(get_class(), $name)) {
 		  db_connect();
-		  $ret =  forward_static_call_array($name, $args);
+		  $ret =  forward_static_call_array(array(get_class(), $name), $args);
 		  disconnect();
 		  return $ret;
 		}
