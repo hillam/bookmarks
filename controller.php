@@ -9,10 +9,10 @@ abstract class Controller{
 		  then disconnects from the db.
 	------------------------------------------------------------------*/
 	public static function __callStatic($name,$args) {
-		echo get_class();
-		if (method_exists(get_class(), $name)) {
+		echo get_called_class();
+		if (method_exists(get_called_class(), $name)) {
 		  db_connect();
-		  $ret =  forward_static_call_array(array(get_class(), $name), $args);
+		  $ret =  forward_static_call_array(array(get_called_class(), $name), $args);
 		  disconnect();
 		  return $ret;
 	  } else{
