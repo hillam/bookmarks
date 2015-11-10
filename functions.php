@@ -2,6 +2,15 @@
 $db = NULL;
 $error = NULL;
 
+function db_connect(){
+	$hostname = 'localhost';
+	$database = 'bookmarks';
+	$username = $_ENV['DB_USERNAME'];
+	$password = $_ENV['DB_PASSWORD'];
+
+	connect($hostname, $database, $username, $password);
+}
+
 function connect($hostname, $database, $username, $password){
 	global $error, $db;
 
