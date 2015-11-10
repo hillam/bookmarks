@@ -3,10 +3,10 @@ require_once '../controller.php';
 require_once '../functions.php';
 
 class Bookmarks extends Controller{
-	public function __call($method, $variables){
-        return parent::__call($method, $variables);
+	public function __callStatic($method, $variables){
+        return parent::__callStatic($method, $variables);
     }
-	
+
 	private static function index($params = null){
 		$results = select('SELECT * FROM bookmarks');
 		foreach ($results as $row){
