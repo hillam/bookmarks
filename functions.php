@@ -6,18 +6,19 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 function db_connect(){
-	$hostname = $_ENV['OPENSHIFT_MYSQL_DB_HOST'];
-	$database = 'bookmarks';
-	$username = $_ENV['OPENSHIFT_MYSQL_DB_USERNAME'];
-	$password = $_ENV['OPENSHIFT_MYSQL_DB_PASSWORD'];
+	$hostname 	= $_ENV['OPENSHIFT_MYSQL_DB_HOST'];
+	$database 	= $_ENV['OPENSHIFT_GEAR_NAME'];
+	$username 	= $_ENV['OPENSHIFT_MYSQL_DB_USERNAME'];
+	$password 	= $_ENV['OPENSHIFT_MYSQL_DB_PASSWORD'];
+	$port 		= $_ENV['OPENSHIFT_MYSQL_DB_PORT'];
 
-	connect($hostname, $database, $username, $password);
+	connect($hostname, $database, $username, $password, $port);
 }
 
-function connect($hostname, $database, $username, $password){
+function connect($hostname, $database, $username, $password, $port = 3306){
 	global $error, $db;
 
-	$db = new mysqli($hostname, $username, $password);
+	$db = new mysqli($hostname, $username, $password, $database, $port);
 	if ($db->connect_error){
 		$error = "Unable to connect to MySQL: " . $db->connect_error;
 	}
