@@ -2,6 +2,9 @@
 $db = NULL;
 $error = NULL;
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 function db_connect(){
 	$hostname = 'localhost';
 	$database = 'bookmarks';
