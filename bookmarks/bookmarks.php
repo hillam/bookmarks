@@ -17,7 +17,8 @@ class Bookmarks extends Controller{
 						WHERE categorizations.bookmark_id = ' . $row['id']);
 			$row['tags'] = $tags;
 		}
-		echo json_encode($row);
+
+		echo json_encode($results);
 	}
 
 	private static function create($params){
