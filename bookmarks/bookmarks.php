@@ -4,7 +4,7 @@ require_once '../functions.php';
 
 class Bookmarks extends Controller{
 
-	protected static function index($params = null){
+	protected static function index(){
 		$results 	= select('SELECT * FROM bookmarks');
 		$bookmarks 	= array();
 		foreach ($results as $row){
@@ -22,29 +22,27 @@ class Bookmarks extends Controller{
 		echo json_encode($bookmarks);
 	}
 
-	protected static function create($params){
-		var_dump($params);
-		// $name	= $params['name'];
-		// $url 	= $params['url'];
-		// $tags	= explode(',', $params['tags']);
-		//
-		// $id = insert('INSERT INTO bookmarks (name, url)
-		// 		VALUES ("' . $name . '", "' . $url . '")');
-		// foreach ($tags as $tag){
-		// 	insert('INSERT INTO classifications (bookmark_id, tag_id)
-		// 			VALUES (' . $id . ', ' . intval($tag) . ')');
-		// }
+	protected static function create(){
+		$name	= $_GET['name'];
+		$url 	= $_GET['url'];
+		$tags	= explode(',', $_GET['tags']);
+
+		$id = insert('INSERT INTO bookmarks (name, url)
+				VALUES ("' . $name . '", "' . $url . '")');
+		foreach ($tags as $tag){
+			insert('INSERT INTO classifications (bookmark_id, tag_id)
+					VALUES (' . $id . ', ' . intval($tag) . ')');
+		}
 	}
 
-	protected static function update($params){
+	protected static function update(){
 
 	}
 
-	protected static function delete($params){
+	protected static function delete(){
 		insert('DELETE FROM bookmarks WHERE id=' . $params['id']);
 	}
 }
-$params = $_GET;
-var_dump($_GET);
-Bookmarks::action('create', $params);
+
+Bookmarks::action('create');
 ?>
