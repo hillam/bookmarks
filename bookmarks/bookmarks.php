@@ -12,11 +12,11 @@ class Bookmarks extends Controller{
 						ON tags.id = categorizations.tag_id
 						WHERE categorizations.bookmark_id = ' . $row['id']);
 			$row['tags'] = $tags;
-			var_dump($row);
+			// var_dump($row);
 		}
 
 		// var_dump($results);
-		// echo json_encode($results);
+		echo json_encode($results);
 	}
 
 	private static function create($params){

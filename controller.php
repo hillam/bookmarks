@@ -2,7 +2,7 @@
 require_once 'functions.php';
 
 abstract class Controller{
-	public static function action($action, $params){
+	public static function action($action, $params = null){
 		db_connect();
 		forward_static_call_array(array(get_called_class(), $action), $params);
 		disconnect();
