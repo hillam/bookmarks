@@ -36,7 +36,25 @@ class Bookmarks extends Controller{
 	}
 
 	protected static function update(){
+		$id 	= $_GET['id'];
+		$url 	= isset($_GET['url'])  ? $_GET['url'] : null;
+		$name 	= isset($_GET['name']) ? $_GET['name'] : null;
+		$tags 	= isset($_GET['tags']) ? $_GET['tags'] : null;
 
+		if($url){
+			insert('UPDATE bookmarks SET url=' . $url . ' WHERE id=' . $id);
+		}
+		if($name){
+			insert('UPDATE bookmarks SET name=' . $name . ' WHERE id=' . $id);
+		}
+
+		$db_tags = select('SELECT id FROM tags');
+		foreach($db_tags as $tag){
+			$index = array_search($tag, $tags);
+			if($index){
+				unset($tags[$index]);
+			}
+		}
 	}
 
 	protected static function delete(){
@@ -44,5 +62,5 @@ class Bookmarks extends Controller{
 	}
 }
 
-Bookmarks::action('create');
+Bookmarks::action('update');
 ?>
