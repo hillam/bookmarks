@@ -8,7 +8,7 @@ class Bookmarks extends Controller{
 		$bookmarks 	= array();
 		foreach ($results as $row){
 			$tags = select(
-				'SELECT * FROM tags
+				'SELECT tags.name, tags.id FROM tags
 					INNER JOIN classifications
 					ON tags.id = classifications.tag_id
 					WHERE classifications.bookmark_id = ' . $row['id']);
@@ -24,6 +24,17 @@ class Bookmarks extends Controller{
 
 	protected static function create($params){
 		var_dump($_GET['tags']);
+
+		// $name	= $params['name'];
+		// $url 	= $params['url'];
+		// $tags	= $params['tags'];
+
+		// $id = insert('INSERT INTO bookmarks (name, url)
+		// 		VALUES ("' . $name . '", "' . $url . '")');
+		// foreach ($tags as $tag){
+		// 	insert('INSERT INTO classifications (bookmark_id, tag_id)
+		// 			VALUES (' . $id . ', ' . $tag . ')');
+		// }
 	}
 
 	protected static function update($params){
@@ -35,5 +46,5 @@ class Bookmarks extends Controller{
 	}
 }
 
-Bookmarks::action('index');
+Bookmarks::action('create');
 ?>

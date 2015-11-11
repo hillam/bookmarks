@@ -49,6 +49,9 @@ function insert($query){
 	if ($result == FALSE){
 		trigger_error('MySQL query error: ' . $query . " - "  . mysql_error(), E_USER_ERROR);
 	}
+	else if( $db->insert_id ){
+		return $db->insert_id;
+	}
 }
 
 function disconnect(){
