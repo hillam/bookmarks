@@ -3,10 +3,6 @@ require_once '../controller.php';
 require_once '../functions.php';
 
 class Tags extends Controller{
-	public static function __callStatic($method, $variables){
-        return parent::__callStatic($method, $variables);
-    }
-
 	public static function index($params){
 
 	}
