@@ -44,6 +44,7 @@ class Bookmarks extends Controller{
 		insert('DELETE FROM bookmarks WHERE id=' . $params['id']);
 	}
 }
-
-Bookmarks::action('create', $_GET);
+$params = $_GET;
+var_dump($_GET);
+Bookmarks::action('create', $params);
 ?>
