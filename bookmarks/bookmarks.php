@@ -3,7 +3,7 @@ require_once '../controller.php';
 require_once '../functions.php';
 
 class Bookmarks extends Controller{
-	private static function index($params = null){
+	protected static function index($params = null){
 		$results = select('SELECT * FROM bookmarks');
 		foreach ($results as $row){
 			$tags = select(
@@ -19,15 +19,15 @@ class Bookmarks extends Controller{
 		echo json_encode($results);
 	}
 
-	private static function create($params){
+	protected static function create($params){
 
 	}
 
-	private static function update($params){
+	protected static function update($params){
 
 	}
 
-	private static function delete($params){
+	protected static function delete($params){
 
 	}
 }
