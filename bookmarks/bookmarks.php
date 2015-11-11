@@ -23,18 +23,16 @@ class Bookmarks extends Controller{
 	}
 
 	protected static function create($params){
-		var_dump($_GET['tags']);
+		$name	= $params['name'];
+		$url 	= $params['url'];
+		$tags	= explode(',', $params['tags']);
 
-		// $name	= $params['name'];
-		// $url 	= $params['url'];
-		// $tags	= $params['tags'];
-
-		// $id = insert('INSERT INTO bookmarks (name, url)
-		// 		VALUES ("' . $name . '", "' . $url . '")');
-		// foreach ($tags as $tag){
-		// 	insert('INSERT INTO classifications (bookmark_id, tag_id)
-		// 			VALUES (' . $id . ', ' . $tag . ')');
-		// }
+		$id = insert('INSERT INTO bookmarks (name, url)
+				VALUES ("' . $name . '", "' . $url . '")');
+		foreach ($tags as $tag){
+			insert('INSERT INTO classifications (bookmark_id, tag_id)
+					VALUES (' . $id . ', ' . inval($tag) . ')');
+		}
 	}
 
 	protected static function update($params){
