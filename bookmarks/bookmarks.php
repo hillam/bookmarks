@@ -56,7 +56,7 @@ class Bookmarks extends Controller{
 				}
 				else{
 					// $tag is in the db but not in tags so delete it from the db
-					insert('DELETE FROM classification
+					insert('DELETE FROM classifications
 							WHERE bookmark_id=' . $id . ' AND tag_id=' . $tag['id']);
 				}
 			}
