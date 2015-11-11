@@ -39,7 +39,7 @@ class Bookmarks extends Controller{
 		$id 	= $_GET['id'];
 		$url 	= isset($_GET['url'])  ? $_GET['url'] : null;
 		$name 	= isset($_GET['name']) ? $_GET['name'] : null;
-		$tags 	= isset($_GET['tags']) ? $_GET['tags'] : null;
+		$tags 	= isset($_GET['tags']) ? explode(',', $_GET['tags']) : null;
 
 		if($url){
 			insert('UPDATE bookmarks SET url=' . $url . ' WHERE id=' . $id);
@@ -47,12 +47,22 @@ class Bookmarks extends Controller{
 		if($name){
 			insert('UPDATE bookmarks SET name=' . $name . ' WHERE id=' . $id);
 		}
-
-		$db_tags = select('SELECT id FROM tags');
-		foreach($db_tags as $tag){
-			$index = array_search($tag, $tags);
-			if($index){
-				unset($tags[$index]);
+		if($tags){
+			$db_tags = select('SELECT id FROM tags');
+			foreach($db_tags as $tag){
+				$index = array_search($tag, $tags);
+				if($index){
+					unset($tags[$index]);
+				}
+				else{
+					// $tag is in the db but not in tags so delete it from the db
+					insert('DELETE FROM classification
+							WHERE bookmark_id=' . $id . ' AND tag_id=' . $tag);
+				}
+			}
+			foreach($tags as $tag){
+				insert('INSERT INTO classifications (bookmark_id,tag_id)
+						VALUES (' . $id . ',' . $tag . ')');
 			}
 		}
 	}
@@ -62,5 +72,5 @@ class Bookmarks extends Controller{
 	}
 }
 
-Bookmarks::action('update');
+Bookmarks::action($_GET['action']);
 ?>
