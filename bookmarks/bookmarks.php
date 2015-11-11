@@ -46,5 +46,5 @@ class Bookmarks extends Controller{
 	}
 }
 
-Bookmarks::action('create');
+Bookmarks::action('create', $_GET);
 ?>
