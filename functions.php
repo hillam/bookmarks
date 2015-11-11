@@ -11,10 +11,10 @@ function db_connect(){
 	$username 	= $_ENV['OPENSHIFT_MYSQL_DB_USERNAME'];
 	$password 	= $_ENV['OPENSHIFT_MYSQL_DB_PASSWORD'];
 
-	connect($hostname, $database, $username, $password);
+	connect($hostname, $username, $password, $database);
 }
 
-function connect($hostname, $database, $username, $password){
+function connect($hostname, $username, $password, $database){
 	global $error, $db;
 
 	$db = new mysqli($hostname, $username, $password, $database);
@@ -24,7 +24,7 @@ function connect($hostname, $database, $username, $password){
 }
 
 function select($query){
-	global $error;
+	global $error, $db;
 
 	$result = $db->query($query);
 	$results = [];
@@ -42,7 +42,7 @@ function select($query){
 }
 
 function insert($query){
-	global $error;
+	global $error, $db;
 
 	$result = $db->query($query);
 

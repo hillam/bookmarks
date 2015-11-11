@@ -1,4 +1,6 @@
 <?php
+include_once 'functions.php';
+
 db_connect();
 $result = select('SELECT * FROM bookmarks');
 ?>
