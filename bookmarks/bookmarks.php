@@ -12,7 +12,9 @@ class Bookmarks extends Controller{
 					INNER JOIN classifications
 					ON tags.id = classifications.tag_id
 					WHERE classifications.bookmark_id = ' . $row['id']);
-			$b = array($row['url'], $row['name']);
+			$b = array(
+				'url' 	=> $row['url'],
+				'name' 	=>$row['name']);
 			$b['tags'] = $tags;
 			$bookmarks[] = $b;
 		}
