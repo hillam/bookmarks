@@ -50,14 +50,14 @@ class Bookmarks extends Controller{
 		if($tags){
 			$db_tags = select('SELECT id FROM tags');
 			foreach($db_tags as $tag){
-				$index = array_search($tag, $tags);
+				$index = array_search($tag['id'], $tags);
 				if($index){
 					unset($tags[$index]);
 				}
 				else{
 					// $tag is in the db but not in tags so delete it from the db
 					insert('DELETE FROM classification
-							WHERE bookmark_id=' . $id . ' AND tag_id=' . $tag);
+							WHERE bookmark_id=' . $id . ' AND tag_id=' . $tag['id']);
 				}
 			}
 			foreach($tags as $tag){
