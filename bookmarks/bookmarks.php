@@ -4,7 +4,7 @@ require_once '../functions.php';
 
 class Bookmarks extends Controller{
 	protected static function index($params = null){
-		$results 	= select('SELECT name, url FROM bookmarks');
+		$results 	= select('SELECT * FROM bookmarks');
 		$bookmarks 	= array();
 		foreach ($results as $row){
 			$tags = select(
@@ -12,7 +12,7 @@ class Bookmarks extends Controller{
 					INNER JOIN classifications
 					ON tags.id = classifications.tag_id
 					WHERE classifications.bookmark_id = ' . $row['id']);
-			$b = $row;
+			$b = array($row['url'], $row['name']);
 			$b['tags'] = $tags;
 			$bookmarks[] = $b;
 		}
