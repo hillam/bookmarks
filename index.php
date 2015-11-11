@@ -8,7 +8,7 @@ $result = select('SELECT * FROM bookmarks');
 <?php
 foreach ($result as $row){
 ?>
-		<li><a href='<?php $row['url'] ?>'><?php $row['name'] ?></a></li>
+		<li><a href=' <?php $row['url']; ?> '> <?php $row['name']; ?> </a></li>
 <?php
 }
 disconnect();

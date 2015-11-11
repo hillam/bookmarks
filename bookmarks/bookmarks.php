@@ -8,14 +8,12 @@ class Bookmarks extends Controller{
 		foreach ($results as $row){
 			$tags = select(
 					'SELECT * FROM tags
-						INNER JOIN categorizations
-						ON tags.id = categorizations.tag_id
-						WHERE categorizations.bookmark_id = ' . $row['id']);
+						INNER JOIN classifications
+						ON tags.id = classifications.tag_id
+						WHERE classifications.bookmark_id = ' . $row['id']);
 			$row['tags'] = $tags;
-			// var_dump($row);
 		}
 
-		// var_dump($results);
 		echo json_encode($results);
 	}
 
