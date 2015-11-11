@@ -32,5 +32,5 @@ class Bookmarks extends Controller{
 	}
 }
 
-Bookmarks::index();
+Bookmarks::action('index');
 ?>
