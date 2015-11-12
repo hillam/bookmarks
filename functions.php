@@ -5,6 +5,17 @@ $error = NULL;
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+function getAction(){
+	$ret = null;
+	if(isset($_GET['action'])){
+		$ret = $_GET['action'];
+	}
+	else if(isset($_POST['action'])){
+		$ret = $_POST['action'];
+	}
+	return $ret;
+}
+
 function db_connect(){
 	$hostname 	= 'localhost';//$_ENV['OPENSHIFT_MYSQL_DB_HOST'];
 	$database 	= $_ENV['OPENSHIFT_GEAR_NAME'];

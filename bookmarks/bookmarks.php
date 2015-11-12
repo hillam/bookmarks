@@ -4,8 +4,18 @@ require_once '../functions.php';
 
 class Bookmarks extends Controller{
 
+	/*------------------------------------------------------------------
+		INDEX (GET)
+		- renders all bookmarks for the current user as JSON
+	------------------------------------------------------------------*/
 	protected static function index(){
-		$results 	= select('SELECT * FROM bookmarks');
+		$select = 'SELECT url, name FROM bookmarks';
+		if(isset($_GET['tag'])){
+			$select .= ' INNER JOIN classifications
+						ON bookmarks.id = classifications.bookmark_id
+						WHERE classifications.tag_id=' . $_GET['tag'];
+		}
+		$results = select($select);
 		$bookmarks 	= array();
 		foreach ($results as $row){
 			$tags = select(
@@ -22,30 +32,38 @@ class Bookmarks extends Controller{
 		echo json_encode($bookmarks);
 	}
 
+	/*------------------------------------------------------------------
+		CREATE (POST)
+		- create a new bookmark
+	------------------------------------------------------------------*/
 	protected static function create(){
-		$name	= $_GET['name'];
-		$url 	= $_GET['url'];
-		$tags	= explode(',', $_GET['tags']);
+		$name	= $_POST['name'];
+		$url 	= $_POST['url'];
+		$tags	= explode(',', $_POST['tags']);
 
 		$id = insert('INSERT INTO bookmarks (name, url)
-				VALUES ("' . $name . '", "' . $url . '")');
+					VALUES ("' . $name . '", "' . $url . '")');
 		foreach ($tags as $tag){
 			insert('INSERT INTO classifications (bookmark_id, tag_id)
 					VALUES (' . $id . ', ' . intval($tag) . ')');
 		}
 	}
 
+	/*------------------------------------------------------------------
+		UPDATE (POST)
+		- update a conversation by id
+	------------------------------------------------------------------*/
 	protected static function update(){
-		$id 	= $_GET['id'];
-		$url 	= isset($_GET['url'])  ? $_GET['url'] : null;
-		$name 	= isset($_GET['name']) ? $_GET['name'] : null;
-		$tags 	= isset($_GET['tags']) ? explode(',', $_GET['tags']) : null;
+		$id 	= $_POST['id'];
+		$url 	= isset($_POST['url'])  ? $_POST['url'] : null;
+		$name 	= isset($_POST['name']) ? $_POST['name'] : null;
+		$tags 	= isset($_POST['tags']) ? explode(',', $_POST['tags']) : null;
 
 		if($url){
-			insert('UPDATE bookmarks SET url=' . $url . ' WHERE id=' . $id);
+			insert('UPDATE bookmarks SET url="' . $url . '" WHERE id=' . $id);
 		}
 		if($name){
-			insert('UPDATE bookmarks SET name=' . $name . ' WHERE id=' . $id);
+			insert('UPDATE bookmarks SET name="' . $name . '" WHERE id=' . $id);
 		}
 		if($tags){
 			$db_tags = select('SELECT id FROM tags');
@@ -67,10 +85,12 @@ class Bookmarks extends Controller{
 		}
 	}
 
+	/*------------------------------------------------------------------
+		DELETE (POST)
+		- delete a conversation by id
+	------------------------------------------------------------------*/
 	protected static function delete(){
-		insert('DELETE FROM bookmarks WHERE id=' . $params['id']);
+		insert('DELETE FROM bookmarks WHERE id=' . $_POST['id']);
 	}
 }
-
-Bookmarks::action($_GET['action']);
 ?>
