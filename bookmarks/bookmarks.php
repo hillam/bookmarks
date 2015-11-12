@@ -9,7 +9,7 @@ class Bookmarks extends Controller{
 		- renders all bookmarks for the current user as JSON
 	------------------------------------------------------------------*/
 	protected static function index(){
-		$select = 'SELECT url, name FROM bookmarks';
+		$select = 'SELECT url, name, id FROM bookmarks';
 		if(isset($_GET['tag'])){
 			$select .= ' INNER JOIN classifications
 						ON bookmarks.id = classifications.bookmark_id
