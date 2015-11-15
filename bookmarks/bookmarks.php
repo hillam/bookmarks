@@ -9,10 +9,10 @@ class Bookmarks extends Controller{
 		- renders all bookmarks for the current user as JSON
 	------------------------------------------------------------------*/
 	protected static function index(){
-		$select = 'SELECT url, name, id FROM bookmarks';
+		$select = 'SELECT url, name, id FROM bookmark';
 		if(isset($_GET['tag'])){
 			$select .= ' INNER JOIN classifications
-						ON bookmarks.id = classifications.bookmark_id
+						ON bookmark.id = classifications.bookmark_id
 						WHERE classifications.tag_id=' . $_GET['tag'];
 		}
 		$results = select($select);
@@ -41,7 +41,7 @@ class Bookmarks extends Controller{
 		$url 	= $_POST['url'];
 		$tags	= explode(',', $_POST['tags']);
 
-		$id = insert('INSERT INTO bookmarks (name, url)
+		$id = insert('INSERT INTO bookmark (name, url)
 					VALUES ("' . $name . '", "' . $url . '")');
 		foreach ($tags as $tag){
 			insert('INSERT INTO classifications (bookmark_id, tag_id)
@@ -60,10 +60,10 @@ class Bookmarks extends Controller{
 		$tags 	= isset($_POST['tags']) ? explode(',', $_POST['tags']) : null;
 
 		if($url){
-			insert('UPDATE bookmarks SET url="' . $url . '" WHERE id=' . $id);
+			insert('UPDATE bookmark SET url="' . $url . '" WHERE id=' . $id);
 		}
 		if($name){
-			insert('UPDATE bookmarks SET name="' . $name . '" WHERE id=' . $id);
+			insert('UPDATE bookmark SET name="' . $name . '" WHERE id=' . $id);
 		}
 		if($tags){
 			$db_tags = select('SELECT id FROM tags');
@@ -90,7 +90,7 @@ class Bookmarks extends Controller{
 		- delete a conversation by id
 	------------------------------------------------------------------*/
 	protected static function delete(){
-		insert('DELETE FROM bookmarks WHERE id=' . $_POST['id']);
+		insert('DELETE FROM bookmark WHERE id=' . $_POST['id']);
 	}
 }
 ?>

@@ -9,7 +9,7 @@ class Tags extends Controller{
 		- renders all tags for the current user as JSON
 	------------------------------------------------------------------*/
 	public static function index(){
-		$tags = select('SELECT * FROM tags');
+		$tags = select('SELECT * FROM tag');
 		echo json_encode($tags);
 	}
 
@@ -19,7 +19,7 @@ class Tags extends Controller{
 	------------------------------------------------------------------*/
 	public static function create(){
 		$name 	= $_POST['name'];
-		insert('INSERT INTO tags (name) VALUES ("' . $name . '")');
+		insert('INSERT INTO tag (name) VALUES ("' . $name . '")');
 	}
 
 	/*------------------------------------------------------------------
@@ -42,7 +42,7 @@ class Tags extends Controller{
 		- delete a tag by id
 	------------------------------------------------------------------*/
 	public static function delete(){
-		insert('DELETE FROM tags WHERE id=' . $_POST['id']);
+		insert('DELETE FROM tag WHERE id=' . $_POST['id']);
 	}
 }
 ?>
