@@ -11,18 +11,18 @@ class Bookmarks extends Controller{
 	protected static function index(){
 		$select = 'SELECT url, name, id FROM bookmark';
 		if(isset($_GET['tag'])){
-			$select .= ' INNER JOIN classifications
-						ON bookmark.id = classifications.bookmark_id
-						WHERE classifications.tag_id=' . $_GET['tag'];
+			$select .= ' INNER JOIN classification
+						ON bookmark.id = classification.bookmark_id
+						WHERE classification.tag_id=' . $_GET['tag'];
 		}
 		$results = select($select);
 		$bookmarks 	= array();
 		foreach ($results as $row){
 			$tags = select(
-				'SELECT tags.name, tags.id FROM tags
-					INNER JOIN classifications
-					ON tags.id = classifications.tag_id
-					WHERE classifications.bookmark_id = ' . $row['id']);
+				'SELECT tag.name, tag.id FROM tag
+					INNER JOIN classification
+					ON tag.id = classification.tag_id
+					WHERE classification.bookmark_id = ' . $row['id']);
 			$b = array(
 				'url' 	=> $row['url'],
 				'name' 	=>$row['name']);
@@ -44,7 +44,7 @@ class Bookmarks extends Controller{
 		$id = insert('INSERT INTO bookmark (name, url)
 					VALUES ("' . $name . '", "' . $url . '")');
 		foreach ($tags as $tag){
-			insert('INSERT INTO classifications (bookmark_id, tag_id)
+			insert('INSERT INTO classification (bookmark_id, tag_id)
 					VALUES (' . $id . ', ' . intval($tag) . ')');
 		}
 	}
@@ -66,7 +66,7 @@ class Bookmarks extends Controller{
 			insert('UPDATE bookmark SET name="' . $name . '" WHERE id=' . $id);
 		}
 		if($tags){
-			$db_tags = select('SELECT id FROM tags');
+			$db_tags = select('SELECT id FROM tag');
 			foreach($db_tags as $tag){
 				$index = array_search($tag['id'], $tags);
 				if($index){
@@ -74,12 +74,12 @@ class Bookmarks extends Controller{
 				}
 				else{
 					// $tag is in the db but not in tags so delete it from the db
-					insert('DELETE FROM classifications
+					insert('DELETE FROM classification
 							WHERE bookmark_id=' . $id . ' AND tag_id=' . $tag['id']);
 				}
 			}
 			foreach($tags as $tag){
-				insert('INSERT INTO classifications (bookmark_id,tag_id)
+				insert('INSERT INTO classification (bookmark_id,tag_id)
 						VALUES (' . $id . ',' . $tag . ')');
 			}
 		}

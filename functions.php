@@ -17,10 +17,14 @@ function getAction(){
 }
 
 function db_connect(){
+	// var_dump($_SERVER);
 	$hostname 	= 'localhost';//$_ENV['OPENSHIFT_MYSQL_DB_HOST'];
-	$database 	= $_ENV['OPENSHIFT_GEAR_NAME'];
-	$username 	= $_ENV['OPENSHIFT_MYSQL_DB_USERNAME'];
-	$password 	= $_ENV['OPENSHIFT_MYSQL_DB_PASSWORD'];
+	$database 	= isset($_ENV['OPENSHIFT_GEAR_NAME']) ?
+					$_ENV['OPENSHIFT_GEAR_NAME'] : $_SERVER['OPENSHIFT_GEAR_NAME'];
+	$username 	= isset($_ENV['OPENSHIFT_MYSQL_DB_USERNAME']) ?
+					$_ENV['OPENSHIFT_MYSQL_DB_USERNAME'] : $_SERVER['OPENSHIFT_MYSQL_DB_USERNAME'];
+	$password 	= isset($_ENV['OPENSHIFT_MYSQL_DB_PASSWORD']) ?
+					$_ENV['OPENSHIFT_MYSQL_DB_PASSWORD'] : $_SERVER['OPENSHIFT_MYSQL_DB_PASSWORD'];
 
 	connect($hostname, $username, $password, $database);
 }

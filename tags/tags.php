@@ -31,7 +31,7 @@ class Tags extends Controller{
 		$name 	= isset($_POST['name']) ? $_POST['name'] : null;
 
 		if($name){
-			insert('UPDATE bookmarks
+			insert('UPDATE bookmark
 					SET name="' . $name . '"
 					WHERE id=' . $id);
 		}
