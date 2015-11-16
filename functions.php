@@ -2,6 +2,9 @@
 $db = NULL;
 $error = NULL;
 
+session_start();
+$current_user = $_SESSION['username'];
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -16,9 +19,12 @@ function getAction(){
 	return $ret;
 }
 
+function pw_encode($pw){
+	return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+}
+
 function db_connect(){
-	// var_dump($_SERVER);
-	$hostname 	= 'localhost';//$_ENV['OPENSHIFT_MYSQL_DB_HOST'];
+	$hostname 	= 'localhost';
 	$database 	= isset($_ENV['OPENSHIFT_GEAR_NAME']) ?
 					$_ENV['OPENSHIFT_GEAR_NAME'] : $_SERVER['OPENSHIFT_GEAR_NAME'];
 	$username 	= isset($_ENV['OPENSHIFT_MYSQL_DB_USERNAME']) ?
