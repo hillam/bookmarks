@@ -9,7 +9,7 @@ class Users extends Controller{
 		- renders all users as JSON (admin only)
 	------------------------------------------------------------------*/
 	protected static function index(){
-
+		
 	}
 
 	/*------------------------------------------------------------------
@@ -17,8 +17,10 @@ class Users extends Controller{
 		- create a new user (sign up)
 	------------------------------------------------------------------*/
 	protected static function create(){
+		$username = $_POST['username'];
+		$password = pw_encode($_POST['password']);
         insert('INSERT INTO user (username, password)
-                VALUES ("' . $_POST['username'] . '", "' . $_POST['password'] . '")');
+                VALUES ("' . $username . '", "' . $password . '")');
 	}
 
     /*------------------------------------------------------------------
@@ -26,7 +28,16 @@ class Users extends Controller{
 		- log in user
 	------------------------------------------------------------------*/
 	protected static function login(){
-        
+		$username = $_POST['username'];
+		$password = pw_encode($_POST['password']);
+
+		$result = select('SELECT * from user
+				username = "' . $username . '" AND
+				password = "' . $password'"');
+
+		if(count($result) > 0){
+			$_SESSION['username'] = $username;
+		}
 	}
 
     /*------------------------------------------------------------------
@@ -34,7 +45,8 @@ class Users extends Controller{
 		- log out user
 	------------------------------------------------------------------*/
 	protected static function logout(){
-
+		session_unset();
+		session_destroy();
 	}
 
 	/*------------------------------------------------------------------
