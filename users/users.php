@@ -9,7 +9,7 @@ class Users extends Controller{
 		- renders all users as JSON (admin only)
 	------------------------------------------------------------------*/
 	protected static function index(){
-		
+
 	}
 
 	/*------------------------------------------------------------------
@@ -33,7 +33,7 @@ class Users extends Controller{
 
 		$result = select('SELECT * from user
 				username = "' . $username . '" AND
-				password = "' . $password'"');
+				password = "' . $password . '"');
 
 		if(count($result) > 0){
 			$_SESSION['username'] = $username;
