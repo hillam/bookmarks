@@ -9,7 +9,8 @@ class Users extends Controller{
 		- renders all users as JSON (admin only)
 	------------------------------------------------------------------*/
 	protected static function index(){
-
+		global $current_user;
+		var_dump($current_user);
 	}
 
 	/*------------------------------------------------------------------
@@ -32,11 +33,13 @@ class Users extends Controller{
 		$password = pw_encode($_POST['password']);
 
 		$result = select('SELECT * from user
-				username = "' . $username . '" AND
+				WHERE username = "' . $username . '" AND
 				password = "' . $password . '"');
 
 		if(count($result) > 0){
-			$_SESSION['username'] = $username;
+			$_SESSION['user'] = array(
+				'username' 	=> $username,
+				'id' 		=> $result[0]['id']);
 		}
 	}
 

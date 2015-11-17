@@ -3,10 +3,12 @@ $db = NULL;
 $error = NULL;
 
 session_start();
-$current_user = $_SESSION['username'];
+$current_user = $_SESSION['user'];
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST');
 
 function getAction(){
 	$ret = null;
@@ -20,7 +22,7 @@ function getAction(){
 }
 
 function pw_encode($pw){
-	return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+	return rtrim(strtr(base64_encode($pw), '+/', '-_'), '=');
 }
 
 function db_connect(){
