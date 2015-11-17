@@ -9,11 +9,15 @@ class Bookmarks extends Controller{
 		- renders all bookmarks for the current user as JSON
 	------------------------------------------------------------------*/
 	protected static function index(){
+		global $current_user;
 		$select = 'SELECT url, name, id FROM bookmark';
 		if(isset($_GET['tag'])){
 			$select .= ' INNER JOIN classification
 						ON bookmark.id = classification.bookmark_id
-						WHERE classification.tag_id=' . $_GET['tag'];
+						WHERE classification.tag_id=' . $_GET['tag'] .
+						' AND bookmark.user_id = ' . $current_user['id'];
+		}else{
+			$select .= ' WHERE bookmark.user_id = ' . $current_user['id'];
 		}
 		$results = select($select);
 		$bookmarks 	= array();
@@ -25,7 +29,7 @@ class Bookmarks extends Controller{
 					WHERE classification.bookmark_id = ' . $row['id']);
 			$b = array(
 				'url' 	=> $row['url'],
-				'name' 	=>$row['name']);
+				'name' 	=> $row['name']);
 			$b['tags'] = $tags;
 			$bookmarks[] = $b;
 		}
@@ -37,12 +41,13 @@ class Bookmarks extends Controller{
 		- create a new bookmark
 	------------------------------------------------------------------*/
 	protected static function create(){
+		global $current_user;
 		$name	= $_POST['name'];
 		$url 	= $_POST['url'];
 		$tags	= explode(',', $_POST['tags']);
 
-		$id = insert('INSERT INTO bookmark (name, url)
-					VALUES ("' . $name . '", "' . $url . '")');
+		$id = insert('INSERT INTO bookmark (name, url, user_id)
+					VALUES ("' . $name . '", "' . $url . '", ' . $current_user['id'] . ')');
 		foreach ($tags as $tag){
 			insert('INSERT INTO classification (bookmark_id, tag_id)
 					VALUES (' . $id . ', ' . intval($tag) . ')');

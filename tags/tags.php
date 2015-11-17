@@ -9,7 +9,8 @@ class Tags extends Controller{
 		- renders all tags for the current user as JSON
 	------------------------------------------------------------------*/
 	public static function index(){
-		$tags = select('SELECT * FROM tag');
+		global $current_user;
+		$tags = select('SELECT * FROM tag WHERE user_id = ' . $current_user['id']);
 		echo json_encode($tags);
 	}
 
@@ -18,8 +19,10 @@ class Tags extends Controller{
 		- create a new tag
 	------------------------------------------------------------------*/
 	public static function create(){
+		global $current_user;
 		$name 	= $_POST['name'];
-		insert('INSERT INTO tag (name) VALUES ("' . $name . '")');
+		insert('INSERT INTO tag (name, user_id)
+				VALUES ("' . $name . '", ' . $current_user['id'] . ')');
 	}
 
 	/*------------------------------------------------------------------
@@ -27,13 +30,15 @@ class Tags extends Controller{
 		- update a tag by id
 	------------------------------------------------------------------*/
 	public static function update(){
+		global $current_user;
 		$id		= $_POST['id'];
 		$name 	= isset($_POST['name']) ? $_POST['name'] : null;
 
 		if($name){
 			insert('UPDATE bookmark
 					SET name="' . $name . '"
-					WHERE id=' . $id);
+					WHERE id=' . $id .
+					'AND user_id=' . $current_user['id']);
 		}
 	}
 
@@ -42,7 +47,9 @@ class Tags extends Controller{
 		- delete a tag by id
 	------------------------------------------------------------------*/
 	public static function delete(){
-		insert('DELETE FROM tag WHERE id=' . $_POST['id']);
+		global $current_user;
+		insert('DELETE FROM tag WHERE id=' . $_POST['id'] .
+				'AND user_id=' . $current_user['id']);
 	}
 }
 ?>
