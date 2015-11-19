@@ -35,7 +35,7 @@ global $current_user;
 		<h1>Log In</h1>
 	</div>
 	<div data-role='content'>
-		<form id='login_form' action='users/index.php' method='POST'>
+		<form id='login_form'>
 			<label for='username'>Username:</label>
 			<input type='text' id='username' name='username'>
 			<label for='username'>Password:</label>
@@ -50,7 +50,7 @@ global $current_user;
 		<h1>New Bookmark</h1>
 	</div>
 	<div data-role='content'>
-		<form id='new_bookmark_form' action='users/index.php' method='POST'>
+		<form id='new_bookmark_form'>
 			<label for='name'>Name:</label>
 			<input type='text' id='new_name' name='name' hint='name'>
 			<label for='url'>URL:</label>
@@ -65,7 +65,7 @@ global $current_user;
 		<h1>Sign Up</h1>
 	</div>
 	<div data-role='content'>
-		<form id='signup_form' action='users/index.php' method='POST'>
+		<form id='signup_form'>
 			<label for='new_username'>Username:</label>
 			<input type='text' id='new_username' name='username'>
 			<label for='new_password'>Password:</label>
