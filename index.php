@@ -7,18 +7,25 @@ global $current_user;
 <div data-role='page' id='mainpage'>
 
 	<div data-role='header'>
-		<h1>Bookmarks</h1>
+		<span class='ui-title'>Bookmarks</span>
 		<?php
 		if($current_user){
-			echo "<a onclick='logout();' class='ui-btn ui-btn-right'>Log out</a>";
+			echo "<a href='#new_bookmark' class='ui-btn ui-btn-left'>New Bookmark</a>
+				<a onclick='logout();' class='ui-btn ui-btn-right'>Log out</a>";
 		}else{
-			echo "<a href='#login_dialog' class='ui-btn ui-btn-right'>Log in</a>";
+			echo 	"<div data-role='controlgroup' class='ui-btn-right'>
+					<a href='#login_dialog' data-role='button'>Log in</a>
+					<a href='#signup_dialog' data-role='button'>Sign up</a>
+					</div>";
 		}
 		?>
 	</div>
 
 	<div data-role='main' class='ui-content'>
-		
+		<div class="container">
+			<ul data-role='listview' id='bookmarks_list'>
+			</ul>
+		</div>
 	</div>
 
 </div>
@@ -30,10 +37,42 @@ global $current_user;
 	<div data-role='content'>
 		<form id='login_form' action='users/index.php' method='POST'>
 			<label for='username'>Username:</label>
-			<input type='text' id='username' name='username' hint='username'>
+			<input type='text' id='username' name='username'>
 			<label for='username'>Password:</label>
 			<input type='password' id='password' name='password'>
 			<input type='submit' class='ui-btn' value='Log in'>
+		</form>
+	</div>
+</div>
+
+<div data-role='page' data-dialog='true' id='new_bookmark'>
+	<div data-role='header'>
+		<h1>New Bookmark</h1>
+	</div>
+	<div data-role='content'>
+		<form id='new_bookmark_form' action='users/index.php' method='POST'>
+			<label for='name'>Name:</label>
+			<input type='text' id='new_name' name='name' hint='name'>
+			<label for='url'>URL:</label>
+			<input type='url' id='new_url' name='url'>
+			<input type='submit' class='ui-btn' value='Create'>
+		</form>
+	</div>
+</div>
+
+<div data-role='page' data-dialog='true' id='signup_dialog'>
+	<div data-role='header'>
+		<h1>Sign Up</h1>
+	</div>
+	<div data-role='content'>
+		<form id='signup_form' action='users/index.php' method='POST'>
+			<label for='new_username'>Username:</label>
+			<input type='text' id='new_username' name='username'>
+			<label for='new_password'>Password:</label>
+			<input type='password' id='new_password' name='password'>
+			<label for='confirm_password'>Confirm:</label>
+			<input type='password' id='confirm_password' name='confirm_password'>
+			<input type='submit' class='ui-btn' value='Sign up'>
 		</form>
 	</div>
 </div>
