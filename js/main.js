@@ -1,5 +1,6 @@
 var model = {
-	bookmarks: []
+	bookmarks: [],
+	tags: []
 };
 
 $(document).ready(function(){
@@ -20,36 +21,61 @@ $(document).ready(function(){
 		event.preventDefault();
 	});
 
+	$('#tags_list').change(function(){
+		$('#tags_list').val().forEach(function(id){
+			model.tags.forEach(function(tag){
+				if(tag.id == id)
+					tag.selected = true;
+				else
+					tag.selected = false;
+			});
+		});
+	});
+
 	get_bookmarks();
-	update_view();
+	get_tags();
 });
 
 function update_view(){
 	$('#bookmarks_list').empty();
 	model.bookmarks.forEach(function(bookmark){
+		var matching = false;
+
+		// TODO: only append if all if a bookmark's tags are selected
+
 		$('#bookmarks_list').append($('<a>', {
-			href: 	decodeURIComponent(bookmark['url']),
-			text:	bookmark['name'],
+			href: 	decodeURIComponent(bookmark.url),
+			text:	bookmark.name,
 			target:	'_blank',
 			class:	'ui-btn'
 		}));
 	});
+
+	$('#tags_list').empty();
+	$('#tags_list').append('<option>Filter by tags...</option>');
+	model.tags.forEach(function(tag){
+		console.log(tag.name);
+		$('#tags_list').append($('<option>', {
+			value: 	tag.id,
+			text: 	tag.name
+		}));
+	});
+	$('#tags_list').selectmenu('refresh');
 }
 
 function get_bookmarks(){
 	var jqxhr = $.getJSON('bookmarks/index.php', {action:'index'});
 	jqxhr.done(function(data){
-		model.bookmarks = [];
-		if(data.length){
-			data.forEach(function(bookmark){
-				$('#bookmarks_list').append($('<a>', {
-					href: 	decodeURIComponent(bookmark['url']),
-					text:	bookmark['name'],
-					target:	'_blank',
-					class:	'ui-btn'
-				}));
-			});
-		}
+		model.bookmarks = data;
+		update_view();
+	});
+}
+
+function get_tags(){
+	var jqxhr = $.getJSON('tags/index.php', {action:'index'});
+	jqxhr.done(function(data){
+		model.tags = data;
+		update_view();
 	});
 }
 

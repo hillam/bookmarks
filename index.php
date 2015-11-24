@@ -8,23 +8,23 @@ global $current_user;
 
 	<div data-role='header'>
 		<span class='ui-title'>Bookmarks</span>
-		<?php
-		if($current_user){
-			echo "<a href='#new_bookmark' class='ui-btn ui-btn-left'>New Bookmark</a>
-				<a onclick='logout();' class='ui-btn ui-btn-right'>Log out</a>";
-		}else{
-			echo 	"<div data-role='controlgroup' class='ui-btn-right'>
-					<a href='#login_dialog' data-role='button'>Log in</a>
-					<a href='#signup_dialog' data-role='button'>Sign up</a>
-					</div>";
-		}
-		?>
+		<?php if($current_user): ?>
+			<a href='#new_bookmark' class='ui-btn ui-btn-left'>New Bookmark</a>
+			<a onclick='logout();' class='ui-btn ui-btn-right'>Log out</a>
+		<?php else: ?>
+			<div data-role='controlgroup' class='ui-btn-right'>
+				<a href='#login_dialog' data-role='button'>Log in</a>
+				<a href='#signup_dialog' data-role='button'>Sign up</a>
+			</div>
+		<?php endif ?>
 	</div>
 
 	<div data-role='main' class='ui-content'>
 		<div class="container">
-			<ul data-role='listview' id='bookmarks_list'>
-			</ul>
+			<select data-native-menu='false' data-placeholder="true"
+				multiple='multiple' id='tags_list'></select>
+			<div id='bookmarks_list'>
+			</div>
 		</div>
 	</div>
 

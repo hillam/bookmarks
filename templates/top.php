@@ -6,20 +6,14 @@
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <title>Bookmarks</title>
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="lib/jquery-1.11.3.min.js"></script>
-
 <!-- Bootstrap -->
 <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<script src="lib/bootstrap/js/bootstrap.min.js"></script>
 
 <!-- jQuery Mobile -->
 <link rel="stylesheet" href="lib/jqmobile/jquery.mobile-1.4.5.min.css" />
-<script src="lib/jqmobile/jquery.mobile-1.4.5.min.js"></script>
 
-<!-- MY STUFF -->
+<!-- MY CODE -->
 <link href="css/styles.css" rel="stylesheet">
-<script src="js/main.js"></script>
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
