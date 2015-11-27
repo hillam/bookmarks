@@ -9,7 +9,10 @@ global $current_user;
 	<div data-role='header'>
 		<span class='ui-title'>Bookmarks</span>
 		<?php if($current_user): ?>
-			<a href='#new_bookmark' class='ui-btn ui-btn-left'>New Bookmark</a>
+			<div data-role='controlgroup' class='ui-btn-left'>
+				<a href='#new_bookmark' class='ui-btn'>New Bookmark</a>
+				<a href='#new_tag' class='ui-btn'>New Tag</a>
+			</div>
 			<a onclick='logout();' class='ui-btn ui-btn-right'>Log out</a>
 		<?php else: ?>
 			<div data-role='controlgroup' class='ui-btn-right'>
@@ -22,7 +25,7 @@ global $current_user;
 	<div data-role='main' class='ui-content'>
 		<div class="container">
 			<select data-native-menu='false' data-placeholder="true"
-				multiple='multiple' id='tags_list'></select>
+				multiple='multiple' id='tags_filter'></select>
 			<div id='bookmarks_list'>
 			</div>
 		</div>
@@ -52,9 +55,25 @@ global $current_user;
 	<div data-role='content'>
 		<form id='new_bookmark_form'>
 			<label for='name'>Name:</label>
-			<input type='text' id='new_name' name='name' hint='name'>
+			<input type='text' id='new_name' name='name'>
 			<label for='url'>URL:</label>
 			<input type='url' id='new_url' name='url'>
+			<label for='tags_list'>Tag(s):</label>
+			<select data-native-menu='false' data-placeholder="true"
+				multiple='multiple' id='tags_list' name='tags_list'></select>
+			<input type='submit' class='ui-btn' value='Create'>
+		</form>
+	</div>
+</div>
+
+<div data-role='page' data-dialog='true' id='new_tag'>
+	<div data-role='header'>
+		<h1>New Tag</h1>
+	</div>
+	<div data-role='content'>
+		<form id='new_tag_form'>
+			<label for='name'>Name:</label>
+			<input type='text' id='new_tag_name' name='name'>
 			<input type='submit' class='ui-btn' value='Create'>
 		</form>
 	</div>

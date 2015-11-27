@@ -15,14 +15,20 @@ $(document).ready(function(){
 		event.preventDefault();
 	});
 
+	$('#new_tag_form').submit(function(event){
+		create_tag();
+		$.mobile.changePage('#mainpage');
+		event.preventDefault();
+	});
+
 	$('#signup_form').submit(function(event){
 		signup();
 		$.mobile.changePage('#mainpage');
 		event.preventDefault();
 	});
 
-	$('#tags_list').change(function(){
-		$('#tags_list').val().forEach(function(id){
+	$('#tags_filter').change(function(){
+		$('#tags_filter').val().forEach(function(id){
 			model.tags.forEach(function(tag){
 				if(tag.id == id)
 					tag.selected = true;
@@ -37,6 +43,8 @@ $(document).ready(function(){
 });
 
 function update_view(){
+	$('input').empty();
+
 	$('#bookmarks_list').empty();
 	model.bookmarks.forEach(function(bookmark){
 		var matching = false;
@@ -52,15 +60,22 @@ function update_view(){
 	});
 
 	$('#tags_list').empty();
-	$('#tags_list').append('<option>Filter by tags...</option>');
+	$('#tags_filter').empty();
+
+	$('#tags_list').append('<option>Select tags...</option>');
+	$('#tags_filter').append('<option>Filter by tags...</option>');
+
 	model.tags.forEach(function(tag){
-		console.log(tag.name);
 		$('#tags_list').append($('<option>', {
 			value: 	tag.id,
 			text: 	tag.name
 		}));
+		$('#tags_filter').append($('<option>', {
+			value: 	tag.id,
+			text: 	tag.name
+		}));
 	});
-	$('#tags_list').selectmenu('refresh');
+	$('#tags_filter').selectmenu('refresh');
 
 	$.mobile.loading('hide');
 }
@@ -92,12 +107,25 @@ function create_bookmark(){
 	var obj = {
 		action:	'create',
 		name:	$('#new_name').val(),
-		url:	$('#new_url').val()
+		url:	$('#new_url').val(),
+		tags:	$('#tags_list').val().join(',')
 	};
 	var jqxhr = $.post('bookmarks/index.php', obj);
 	jqxhr.done(function(data){
 		get_bookmarks();
-		update_view();
+	});
+	console.log(obj);
+}
+
+function create_tag(){
+	$.mobile.loading('show');
+	var obj = {
+		action:	'create',
+		name:	$('#new_tag_name').val()
+	};
+	var jqxhr = $.post('tags/index.php', obj);
+	jqxhr.done(function(data){
+		get_tags();
 	});
 }
 
