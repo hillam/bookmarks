@@ -61,25 +61,34 @@ function update_view(){
 		}));
 	});
 	$('#tags_list').selectmenu('refresh');
+
+	$.mobile.loading('hide');
 }
 
 function get_bookmarks(){
+	$.mobile.loading('show');
 	var jqxhr = $.getJSON('bookmarks/index.php', {action:'index'});
 	jqxhr.done(function(data){
-		model.bookmarks = data;
+		if(!data.status){
+			model.bookmarks = data;
+		}
 		update_view();
 	});
 }
 
 function get_tags(){
+	// $.mobile.loading('show');
 	var jqxhr = $.getJSON('tags/index.php', {action:'index'});
 	jqxhr.done(function(data){
-		model.tags = data;
+		if(!data.status){
+			model.tags = data;
+		}
 		update_view();
 	});
 }
 
 function create_bookmark(){
+	$.mobile.loading('show');
 	var obj = {
 		action:	'create',
 		name:	$('#new_name').val(),
@@ -107,6 +116,7 @@ function login(callback){
 	var jqxhr = $.post('users/index.php', obj);
 
 	jqxhr.done(function(data){
+		console.log(data);
 		callback();
 	});
 
