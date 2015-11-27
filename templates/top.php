@@ -6,10 +6,15 @@
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <title>Bookmarks</title>
 
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="lib/jquery-1.11.3.min.js"></script>
+
 <!-- Bootstrap -->
+<script src="lib/bootstrap/js/bootstrap.min.js"></script>
 <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- jQuery Mobile -->
+<script src="lib/jqmobile/jquery.mobile-1.4.5.min.js"></script>
 <link rel="stylesheet" href="lib/jqmobile/jquery.mobile-1.4.5.min.css" />
 
 <!-- MY CODE -->
