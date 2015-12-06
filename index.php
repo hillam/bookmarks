@@ -7,11 +7,12 @@ global $current_user;
 <div data-role='page' id='mainpage'>
 
 	<div data-role='header'>
-		<span class='ui-title'>Bookmarks</span>
+		<span id='page_status' class='ui-title'>Bookmarks</span>
 		<?php if($current_user): ?>
 			<div data-role='controlgroup' class='ui-btn-left'>
 				<a href='#new_bookmark' class='ui-btn'>New Bookmark</a>
 				<a href='#new_tag' class='ui-btn'>New Tag</a>
+				<a id='edit_mode' href='#' class='ui-btn'>Edit</a>
 			</div>
 			<a onclick='logout();' class='ui-btn ui-btn-right'>Log out</a>
 		<?php else: ?>
@@ -62,6 +63,24 @@ global $current_user;
 			<select data-native-menu='false' data-placeholder="true"
 				multiple='multiple' id='tags_list' name='tags_list'></select>
 			<input type='submit' class='ui-btn' value='Create'>
+		</form>
+	</div>
+</div>
+
+<div data-role='page' data-dialog='true' id='edit_bookmark'>
+	<div data-role='header'>
+		<h1>Edit Bookmark</h1>
+	</div>
+	<div data-role='content'>
+		<form id='edit_bookmark_form'>
+			<label for='name'>Name:</label>
+			<input type='text' id='edit_name' name='name'>
+			<label for='url'>URL:</label>
+			<input type='url' id='edit_url' name='url'>
+			<label for='tags_list'>Tag(s):</label>
+			<select data-native-menu='false' data-placeholder="true"
+				multiple='multiple' id='edit_tags_list' name='tags_list'></select>
+			<input type='submit' class='ui-btn' value='Save'>
 		</form>
 	</div>
 </div>

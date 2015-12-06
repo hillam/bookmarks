@@ -23,14 +23,22 @@ class Bookmarks extends Controller{
 		$bookmarks 	= array();
 		foreach ($results as $row){
 			$tags = select(
-				'SELECT tag.name, tag.id FROM tag
+				'SELECT tag.id, tag.name FROM tag
 					INNER JOIN classification
 					ON tag.id = classification.tag_id
 					WHERE classification.bookmark_id = ' . $row['id']);
 			$b = array(
-				'url' 	=> $row['url'],
-				'name' 	=> $row['name']);
-			$b['tags'] = $tags;
+				'id' 	=> $row['id'],
+				'name' 	=> $row['name'],
+				'url' 	=> $row['url']);
+
+			// convert $tags from associative to array
+			$tags_array = array();
+			foreach($tags as $tag){
+				$tags_array[] = $tag['id'];
+			}
+
+			$b['tags'] = $tags_array;
 			$bookmarks[] = $b;
 		}
 		echo json_encode($bookmarks);
