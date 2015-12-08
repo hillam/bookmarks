@@ -81,6 +81,7 @@ global $current_user;
 			<select data-native-menu='false' data-placeholder="true"
 				multiple='multiple' id='edit_tags_list' name='tags_list'></select>
 			<input type='submit' class='ui-btn' value='Save'>
+			<input type='button' class='ui-btn' id='delete_bookmark' value='Delete'>
 		</form>
 	</div>
 </div>

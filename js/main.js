@@ -8,9 +8,9 @@ var model = {
 	tags: []
 };
 
-/**
+/**-------------------------------------
  * Wire up event handlers
- */
+-------------------------------------*/
 $(document).ready(function(){
 	$('form').submit(function(event){
 		event.preventDefault();
@@ -27,6 +27,11 @@ $(document).ready(function(){
 
 	$('#edit_bookmark_form').submit(function(){
 		update_bookmark();
+		$.mobile.changePage('#mainpage');
+	});
+
+	$('#delete_bookmark').click(function(){
+		delete_bookmark();
 		$.mobile.changePage('#mainpage');
 	});
 
@@ -61,9 +66,9 @@ $(document).ready(function(){
 	get_tags();
 });
 
-/**
+/**-------------------------------------
  * Load model data into the view
- */
+-------------------------------------*/
 function update_view(){
 	$('input').empty();
 
@@ -111,10 +116,10 @@ function update_view(){
 	$.mobile.loading('hide');
 }
 
-/**
+/**-------------------------------------
  * Render edit bookmark form
  * - Click handler for bookmark
- */
+-------------------------------------*/
 function edit_bookmark(){
 	if(model.edit_mode){
 		$.mobile.changePage('#edit_bookmark');
@@ -128,9 +133,9 @@ function edit_bookmark(){
 	}
 }
 
-/**
+/**-------------------------------------
  * Submit update bookmark form
- */
+-------------------------------------*/
 function update_bookmark(){
 	$.mobile.loading('show');
 	var tags = $('#edit_tags_list').val();
@@ -149,9 +154,23 @@ function update_bookmark(){
 	});
 }
 
-/**
+/**-------------------------------------
+ * Delete a user from the edit dialog
+-------------------------------------*/
+function delete_bookmark(){
+	var obj = {
+		action: 'delete',
+		id:		model.selected.bookmark.id
+	};
+	var jqxhr = $.post('bookmarks/index.php', obj);
+	jqxhr.done(function(data){
+		get_bookmarks();
+	});
+}
+
+/**-------------------------------------
  * Get all bookmarks for this user
- */
+-------------------------------------*/
 function get_bookmarks(){
 	$.mobile.loading('show');
 	var jqxhr = $.getJSON('bookmarks/index.php', {action:'index'});
@@ -166,9 +185,9 @@ function get_bookmarks(){
 	});
 }
 
-/**
+/**-------------------------------------
  * Get all tags for this user
- */
+-------------------------------------*/
 function get_tags(){
 	// $.mobile.loading('show');
 	var jqxhr = $.getJSON('tags/index.php', {action:'index'});
@@ -180,9 +199,9 @@ function get_tags(){
 	});
 }
 
-/**
+/**-------------------------------------
  * Submit create bookmark form
- */
+-------------------------------------*/
 function create_bookmark(){
 	$.mobile.loading('show');
 	var obj = {
@@ -197,9 +216,9 @@ function create_bookmark(){
 	});
 }
 
-/**
+/**-------------------------------------
  * Submit create tag form
- */
+-------------------------------------*/
 function create_tag(){
 	$.mobile.loading('show');
 	var obj = {
@@ -212,17 +231,17 @@ function create_tag(){
 	});
 }
 
-/**
+/**-------------------------------------
  * Load home page with a full reload
- */
+-------------------------------------*/
 function go_home(){
 	window.location.replace('#mainpage');
 	window.location.reload(true);
 }
 
-/**
+/**-------------------------------------
  * Submit login form
- */
+-------------------------------------*/
 function login(callback){
 	$.mobile.loading('show');
 	var obj = {
@@ -241,9 +260,9 @@ function login(callback){
 	});
 }
 
-/**
+/**-------------------------------------
  * Submit sign up form
- */
+-------------------------------------*/
 function signup(){
 	var username = $('#new_username').val(),
 		password = $('#new_password').val(),
@@ -266,9 +285,9 @@ function signup(){
 	}
 }
 
-/**
+/**-------------------------------------
  * Send logout signal to server
- */
+-------------------------------------*/
 function logout(){
 	$.mobile.loading('show');
 	var jhxr = $.post('users/index.php', {action:'logout'});
