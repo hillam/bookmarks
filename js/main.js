@@ -1,8 +1,9 @@
 var model = {
 	selected: {
 		index: -1,
-		bookmark: {}
+		bookmark: {},
 	},
+	filters: [],
 	edit_mode: false,
 	bookmarks: [],
 	tags: []
@@ -46,14 +47,11 @@ $(document).ready(function(){
 	});
 
 	$('#tags_filter').change(function(){
-		$('#tags_filter').val().forEach(function(id){
-			model.tags.forEach(function(tag){
-				if(tag.id == id)
-					tag.selected = true;
-				else
-					tag.selected = false;
-			});
+		model.filters = [];
+		($('#tags_filter').val() || []).forEach(function(id){
+			model.filters.push(id);
 		});
+		update_bookmarks_list();
 	});
 
 	$('#edit_mode').click(function(){
@@ -72,23 +70,7 @@ $(document).ready(function(){
 function update_view(){
 	$('input').empty();
 
-	$('#bookmarks_list').empty();
-	model.bookmarks.forEach(function(bookmark, index){
-		var matching = false;
-
-		// TODO: only append if all if a bookmark's tags are selected
-
-		$('#bookmarks_list').append($('<a>', {
-			href: 	bookmark.url,
-			text:	bookmark.name,
-			target:	'_blank',
-			class:	'ui-btn',
-
-			// don't redirect unless not in editing mode
-			onclick: 'return !model.edit_mode;'
-		}).click(edit_bookmark)
-			.attr('index', index));
-	});
+	update_bookmarks_list();
 
 	$('#tags_list').empty();
 	$('#edit_tags_list').empty();
@@ -114,6 +96,33 @@ function update_view(){
 	$('#tags_filter').selectmenu('refresh');
 
 	$.mobile.loading('hide');
+}
+
+function update_bookmarks_list(){
+	$('#bookmarks_list').empty();
+	model.bookmarks.forEach(function(bookmark, index){
+		var matching = true;
+
+		// TODO: only append if all if a bookmark's tags are selected
+		model.filters.forEach(function(tag){
+			if(bookmark.tags.indexOf(tag) < 0){
+				matching = false;
+			}
+		});
+
+		if(matching){
+			$('#bookmarks_list').append($('<a>', {
+				href: 	bookmark.url,
+				text:	bookmark.name,
+				target:	'_blank',
+				class:	'ui-btn',
+
+				// don't redirect unless not in editing mode
+				onclick: 'return !model.edit_mode;'
+			}).click(edit_bookmark)
+				.attr('index', index));
+		}
+	});
 }
 
 /**-------------------------------------
