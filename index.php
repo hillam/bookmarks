@@ -9,16 +9,20 @@ global $current_user;
 	<div data-role='header'>
 		<span id='page_status' class='ui-title'>Bookmarks</span>
 		<?php if($current_user): ?>
-			<div data-role='controlgroup' class='ui-btn-left'>
-				<a href='#new_bookmark' class='ui-btn'>New Bookmark</a>
-				<a href='#new_tag' class='ui-btn'>New Tag</a>
-				<a id='edit_mode' href='#' class='ui-btn'>Edit</a>
+			<div data-role="navbar">
+				<ul>
+					<li><a href='#new_bookmark' class='ui-btn'>New Bookmark</a></li>
+					<li><a href='#new_tag' class='ui-btn'>New Tag</a></li>
+					<li><a id='edit_mode' href='#' class='ui-btn'>Edit</a></li>
+				</ul>
 			</div>
 			<a onclick='logout();' class='ui-btn ui-btn-right'>Log out</a>
 		<?php else: ?>
-			<div data-role='controlgroup' class='ui-btn-right'>
-				<a href='#login_dialog' data-role='button'>Log in</a>
-				<a href='#signup_dialog' data-role='button'>Sign up</a>
+			<div data-role="navbar">
+				<ul>
+					<li><a href='#login_dialog' data-role='button'>Log in</a></li>
+					<li><a href='#signup_dialog' data-role='button'>Sign up</a></li>
+				</ul>
 			</div>
 		<?php endif ?>
 	</div>
