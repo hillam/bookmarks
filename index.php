@@ -5,7 +5,6 @@ global $current_user;
 ?>
 
 <div data-role='page' id='mainpage'>
-
 	<div data-role='header'>
 		<span id='page_status' class='ui-title'>Bookmarks</span>
 		<?php if($current_user): ?>
@@ -17,6 +16,9 @@ global $current_user;
 				</ul>
 			</div>
 			<a onclick='logout();' class='ui-btn ui-btn-right'>Log out</a>
+			<?php if($current_user['is_admin']): ?>
+				<a href='#userspage' class='ui-btn ui-btn-left'>Admin</a>
+			<?php endif; ?>
 		<?php else: ?>
 			<div data-role="navbar">
 				<ul>
@@ -26,7 +28,6 @@ global $current_user;
 			</div>
 		<?php endif ?>
 	</div>
-
 	<div data-role='main' class='ui-content'>
 		<div class="container">
 			<?php if($current_user): ?>
@@ -40,6 +41,19 @@ global $current_user;
 		</div>
 	</div>
 
+</div>
+
+<div data-role='page' id='userspage'>
+	<div data-role='header'>
+		<span class='ui-title'>Admin Panel</span>
+		<a onclick='go_home();' class='ui-btn ui-btn-left'>Back</a>
+	</div>
+	<div data-role='main' class='ui-content'>
+		<div class="container">
+			<div id='users_list'>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div data-role='page' data-dialog='true' id='login_dialog'>

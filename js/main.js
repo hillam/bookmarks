@@ -6,7 +6,8 @@ var model = {
 	filters: [],
 	edit_mode: false,
 	bookmarks: [],
-	tags: []
+	tags: [],
+	users: []
 };
 
 /**-------------------------------------
@@ -57,9 +58,25 @@ $(document).ready(function(){
 		$('#page_status').text(message);
 	});
 
+	$(document).on('click', '.user_listing', function(){
+		console.log()
+		if(confirm('Are you sure you want to permanently delete this user?')){
+			delete_user($(this).attr('id'));
+		}
+	});
+
 	get_bookmarks();
 	get_tags();
+	get_users();
 });
+
+/**-------------------------------------
+ * Load home page with a full reload
+-------------------------------------*/
+function go_home(){
+	window.location.replace('#mainpage');
+	window.location.reload(true);
+}
 
 /**-------------------------------------
  * Load model data into the view
@@ -69,9 +86,17 @@ function update_view(){
 
 	update_bookmarks_list();
 
-	$('#tags_list').empty();
-	$('#edit_tags_list').empty();
-	$('#tags_filter').empty();
+	$('#users_list').empty();
+	model.users.forEach(function(user){
+		$('#users_list').append($('<a>', {
+			text: user.username,
+			class:	'ui-btn user_listing'
+		}).attr('id', user.id));
+	});
+
+	$('#tags_list').empty().selectmenu();
+	$('#edit_tags_list').empty().selectmenu();
+	$('#tags_filter').empty().selectmenu();
 
 	$('#tags_list').append('<option>Select tags...</option>');
 	$('#tags_filter').append('<option>Filter by tags...</option>');
@@ -100,7 +125,6 @@ function update_bookmarks_list(){
 	model.bookmarks.forEach(function(bookmark, index){
 		var matching = true;
 
-		// TODO: only append if all if a bookmark's tags are selected
 		model.filters.forEach(function(tag){
 			if(bookmark.tags.indexOf(tag) < 0){
 				matching = false;
@@ -195,7 +219,7 @@ function get_bookmarks(){
  * Get all tags for this user
 -------------------------------------*/
 function get_tags(){
-	// $.mobile.loading('show');
+	$.mobile.loading('show');
 	var jqxhr = $.getJSON('tags/index.php', {action:'index'});
 	jqxhr.done(function(data){
 		if(!data.status){
@@ -235,14 +259,6 @@ function create_tag(){
 	jqxhr.done(function(data){
 		get_tags();
 	});
-}
-
-/**-------------------------------------
- * Load home page with a full reload
--------------------------------------*/
-function go_home(){
-	window.location.replace('#mainpage');
-	window.location.reload(true);
 }
 
 /**-------------------------------------
@@ -302,5 +318,33 @@ function logout(){
 	jhxr.always(function(){
 		$.mobile.loading('hide');
 		go_home();
+	});
+}
+
+/**-------------------------------------
+ * Get all users from the database
+-------------------------------------*/
+function get_users(){
+	$.mobile.loading('show');
+	var jqxhr = $.getJSON('users/index.php', {action:'index'});
+	jqxhr.done(function(data){
+		if(!data.status){
+			model.users = data;
+			update_view();
+		}
+	});
+}
+
+/**-------------------------------------
+ * Delete a user by id
+-------------------------------------*/
+function delete_user(id){
+	var obj = {
+		action: 'delete',
+		id:		id
+	};
+	var jqxhr = $.post('users/index.php', obj);
+	jqxhr.done(function(data){
+		get_users();
 	});
 }
