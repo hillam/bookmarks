@@ -25,8 +25,12 @@ global $current_user;
 
 	<div data-role='main' class='ui-content'>
 		<div class="container">
-			<select data-native-menu='false' data-placeholder="true"
-				multiple='multiple' id='tags_filter'></select>
+			<?php if($current_user): ?>
+				<select data-native-menu='false' data-placeholder="true"
+					multiple='multiple' id='tags_filter'></select>
+			<?php else: ?>
+				<h1 align='center'>Please sign in or sign up!</h1>
+			<?php endif; ?>
 			<div id='bookmarks_list'>
 			</div>
 		</div>
