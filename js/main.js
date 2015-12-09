@@ -1,7 +1,7 @@
 var model = {
 	selected: {
 		index: -1,
-		bookmark: {},
+		bookmark: {}
 	},
 	filters: [],
 	edit_mode: false,
@@ -17,9 +17,7 @@ $(document).ready(function(){
 		event.preventDefault();
 	});
 
-	$('#login_form').submit(function(event){
-		login(go_home);
-	});
+	$('#login_form').submit(login);
 
 	$('#new_bookmark_form').submit(function(){
 		create_bookmark();
@@ -43,7 +41,6 @@ $(document).ready(function(){
 
 	$('#signup_form').submit(function(){
 		signup();
-		$.mobile.changePage('#mainpage');
 	});
 
 	$('#tags_filter').change(function(){
@@ -261,7 +258,7 @@ function login(callback){
 	var jqxhr = $.post('users/index.php', obj);
 
 	jqxhr.done(function(data){
-		callback();
+		go_home();
 	});
 
 	jqxhr.always(function(data){
@@ -287,9 +284,10 @@ function signup(){
 			password: 	password
 		}
 		$.mobile.loading('show');
-		var jqxhr = $.post('/users/index.php', obj);
+		var jqxhr = $.post('users/index.php', obj);
 		jqxhr.done(function(data){
 			$.mobile.loading('hide');
+			$.mobile.changePage('#mainpage');
 		});
 	}
 }

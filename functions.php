@@ -25,11 +25,6 @@ function pw_encode($pw){
 	return rtrim(strtr(base64_encode($pw), '+/', '-_'), '=');
 }
 
-function render_success(){
-	$success = array('status' => 'success');
-	echo json_encode($success);
-}
-
 function db_connect(){
 	$hostname 	= 'localhost';
 	$database 	= isset($_ENV['OPENSHIFT_GEAR_NAME']) ?

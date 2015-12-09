@@ -10,7 +10,13 @@ class Users extends Controller{
 	------------------------------------------------------------------*/
 	protected static function index(){
 		global $current_user;
-		var_dump($current_user);
+		if($current_user['is_admin']){
+			$result = select('SELECT id, username from user');
+			echo json_encode($result);
+		}
+		else {
+			self::$failure = 'you are not admin';
+		}
 	}
 
 	/*------------------------------------------------------------------
@@ -39,7 +45,8 @@ class Users extends Controller{
 		if(count($result) > 0){
 			$_SESSION['user'] = array(
 				'username' 	=> $username,
-				'id' 		=> $result[0]['id']);
+				'id' 		=> $result[0]['id'],
+				'is_admin'	=> $result[0]['admin']);
 		}
 	}
 
@@ -57,7 +64,13 @@ class Users extends Controller{
 		- delete a conversation by id (admin only)
 	------------------------------------------------------------------*/
 	protected static function delete(){
-
+		global $current_user;
+		if($current_user['is_admin']){
+			insert('DELETE FROM user WHERE id=' . $_POST['id']);
+		}
+		else {
+			self::$failure = 'you are not admin';
+		}
 	}
 }
 ?>
