@@ -73,7 +73,7 @@ class Bookmarks extends Controller{
 		$url 	= isset($_POST['url'])  ? $_POST['url'] : null;
 		$name 	= isset($_POST['name']) ? $_POST['name'] : null;
 		$tags 	= isset($_POST['tags']) ? explode(',', $_POST['tags']) : null;
-		var_dump($tags);
+
 		if($url){
 			insert('UPDATE bookmark SET url="' . $url . '" WHERE id=' . $id);
 		}
@@ -97,7 +97,7 @@ class Bookmarks extends Controller{
 							WHERE bookmark_id=' . $id . ' AND tag_id=' . $tag['id']);
 				}
 			}
-			var_dump($tags);
+
 			foreach($tags as $tag){
 				insert('INSERT INTO classification (bookmark_id,tag_id)
 						VALUES (' . $id . ',' . $tag . ')');
