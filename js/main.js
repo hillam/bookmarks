@@ -31,7 +31,9 @@ $(document).ready(function(){
 	});
 
 	$('#delete_bookmark').click(function(){
-		delete_bookmark();
+		if(confirm("Are you sure you want to permanently delete this bookmark?")){
+			delete_bookmark();
+		}
 		$.mobile.changePage('#mainpage');
 	});
 
@@ -59,7 +61,6 @@ $(document).ready(function(){
 	});
 
 	$(document).on('click', '.user_listing', function(){
-		console.log()
 		if(confirm('Are you sure you want to permanently delete this user?')){
 			delete_user($(this).attr('id'));
 		}
@@ -82,7 +83,8 @@ function go_home(){
  * Load model data into the view
 -------------------------------------*/
 function update_view(){
-	$('input').empty();
+	$('input[type!="submit"][type!="button"]').val('');
+	$('select').val('');
 
 	update_bookmarks_list();
 
@@ -115,6 +117,7 @@ function update_view(){
 			text: 	tag.name
 		}));
 	});
+	$('#tags_filter').selectmenu();
 	$('#tags_filter').selectmenu('refresh');
 
 	$.mobile.loading('hide');
@@ -169,15 +172,13 @@ function edit_bookmark(){
 function update_bookmark(){
 	$.mobile.loading('show');
 	var tags = $('#edit_tags_list').val();
-	tags = tags ? tags.join(',') : '';
 	var obj = {
 		action:	'update',
 		id: 	model.selected.bookmark.id,
 		name:	$('#edit_name').val(),
 		url:	$('#edit_url').val(),
-		tags:	tags
+		tags:	tags ? tags.join(',') : ''
 	};
-	console.log(obj);
 	var jqxhr = $.post('bookmarks/index.php', obj);
 	jqxhr.done(function(data){
 		get_bookmarks();
@@ -234,11 +235,12 @@ function get_tags(){
 -------------------------------------*/
 function create_bookmark(){
 	$.mobile.loading('show');
+	var tags = $('#tags_list').val();
 	var obj = {
 		action:	'create',
 		name:	$('#new_name').val(),
 		url:	$('#new_url').val(),
-		tags:	$('#tags_list').val().join(',')
+		tags:	tags ? tags.join(',') : ''
 	};
 	var jqxhr = $.post('bookmarks/index.php', obj);
 	jqxhr.done(function(data){

@@ -67,11 +67,13 @@ class Bookmarks extends Controller{
 		- update a conversation by id
 	------------------------------------------------------------------*/
 	protected static function update(){
+		global $current_user;
+
 		$id 	= $_POST['id'];
 		$url 	= isset($_POST['url'])  ? $_POST['url'] : null;
 		$name 	= isset($_POST['name']) ? $_POST['name'] : null;
 		$tags 	= isset($_POST['tags']) ? explode(',', $_POST['tags']) : null;
-
+		var_dump($tags);
 		if($url){
 			insert('UPDATE bookmark SET url="' . $url . '" WHERE id=' . $id);
 		}
@@ -79,7 +81,11 @@ class Bookmarks extends Controller{
 			insert('UPDATE bookmark SET name="' . $name . '" WHERE id=' . $id);
 		}
 		if($tags){
-			$db_tags = select('SELECT id FROM tag');
+			$db_tags = select('SELECT id FROM tag
+								INNER JOIN classification
+								ON tag.id=classification.tag_id
+								WHERE user_id=' . $current_user['id'] .
+								' AND bookmark_id=' . $id);
 			foreach($db_tags as $tag){
 				$index = array_search($tag['id'], $tags);
 				if($index){
@@ -91,6 +97,7 @@ class Bookmarks extends Controller{
 							WHERE bookmark_id=' . $id . ' AND tag_id=' . $tag['id']);
 				}
 			}
+			var_dump($tags);
 			foreach($tags as $tag){
 				insert('INSERT INTO classification (bookmark_id,tag_id)
 						VALUES (' . $id . ',' . $tag . ')');
