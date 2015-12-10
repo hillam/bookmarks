@@ -94,9 +94,9 @@ function update_view(){
 		}).attr('id', user.id));
 	});
 
-	$('#tags_list').empty().selectmenu();
-	$('#edit_tags_list').empty().selectmenu();
-	$('#tags_filter').empty().selectmenu();
+	$('#tags_list').empty();
+	$('#edit_tags_list').empty();
+	$('#tags_filter').empty();
 
 	$('#tags_list').append('<option>Select tags...</option>');
 	$('#tags_filter').append('<option>Filter by tags...</option>');
